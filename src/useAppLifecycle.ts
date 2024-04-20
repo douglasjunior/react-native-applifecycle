@@ -20,5 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-export {default as AppLifecycle} from './AppLifecycle';
-export {default as useAppLifecycle} from './useAppLifecycle';
+import {useEffect, useState} from 'react';
+
+import AppLifecycle from './AppLifecycle';
+
+const useAppLifecycle = () => {
+  const [appState, setAppState] = useState(AppLifecycle.currentState);
+
+  useEffect(() => {
+    const listener = AppLifecycle.addEventListener('change', state => {
+      setAppState(state);
+    });
+
+    return () => listener.remove();
+  }, []);
+
+  return appState;
+};
+
+export default useAppLifecycle;
