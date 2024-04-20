@@ -1,4 +1,4 @@
-# React Native Lifecycle
+# React-Native App Lifecycle
 
 [![License MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](https://github.com/douglasjunior/react-native-applifecycle/blob/master/LICENSE)
 [![npm version](https://img.shields.io/npm/v/react-native-applifecycle.svg)](https://www.npmjs.com/package/react-native-applifecycle)

@@ -1,0 +1,14 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "noEmit": false,
+    "declaration": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "removeComments": false,
+    "allowImportingTsExtensions": false,
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}
