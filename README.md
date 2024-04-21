@@ -69,6 +69,8 @@ const App = () => {
 export default App;
 ```
 
+For more details, see the [Sample Project](https://github.com/douglasjunior/react-native-applifecycle/blob/main/Sample/App.tsx).
+
 ## Contribute
 
 New features, bug fixes and improvements are welcome! For questions and suggestions use the [issues](https://github.com/douglasjunior/react-native-applifecycle/issues).
