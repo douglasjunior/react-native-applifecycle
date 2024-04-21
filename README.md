@@ -95,22 +95,22 @@ Falls back to [AppState](https://reactnative.dev/docs/appstate#events)
 
 ### `addEventListener()`
 
-    ```ts
-    static addEventListener(
-      type: AppStateEvent,
-      listener: (state: AppStateStatus) => void,
-    ): NativeEventSubscription;
-    ```
+```ts
+static addEventListener(
+  type: AppStateEvent,
+  listener: (state: AppStateStatus) => void,
+): NativeEventSubscription;
+```
 
-    Sets up a function that will be called whenever the specified event type on Lifecycle occurs. Valid values for `eventType` are listed above. Returns the `EventSubscription`.
+Sets up a function that will be called whenever the specified event type on Lifecycle occurs. Valid values for `eventType` are listed above. Returns the `EventSubscription`.
 
 ## Properties
 
 ### `currentState`
 
-    ```ts
-    static currentState: AppStateStatus;
-    ```
+```ts
+static currentState: AppStateStatus;
+```
 
 ## Contribute
 
