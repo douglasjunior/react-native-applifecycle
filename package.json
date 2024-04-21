@@ -2,7 +2,7 @@
   "name": "react-native-applifecycle",
   "displayName": "React-Native App Lifecycle",
   "version": "0.2.0",
-  "description": "⚛ Provides functionality to determine whether the app is in the foreground or background and notifies you when the state changes.",
+  "description": "⚛ Enhances the reliability of managing app lifecycles across iOS and Android platforms, ensuring consistent behavior regarding foreground and background states.",
   "main": "src",
   "license": "MIT",
   "private": false,
