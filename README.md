@@ -30,7 +30,44 @@ npm i -S react-native-applifecycle
 
 ## Usage
 
-TODO: write usage
+The App Lifecycle API is compatible with the original [AppState](https://reactnative.dev/docs/appstate).
+
+### Subscribing to the `change` listener:
+
+```tsx
+import {AppLifecycle} from 'react-native-applifecycle';
+
+const App = () => {
+
+  useEffect(() => {
+    const listener = AppLifecycle.addEventListener('change', state => {
+      // do something
+    });
+
+    return () => listener.remove();
+  }, []);
+
+  return <View />;
+}
+
+export default App;
+```
+
+### Getting the current state with `hook`:
+
+```tsx
+import {useAppLifecycle} from 'react-native-applifecycle';
+
+const App = () => {
+  const currentLifecycle = useAppLifecycle();
+
+  // do something
+
+  return <View />;
+}
+
+export default App;
+```
 
 ## Contribute
 
