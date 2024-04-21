@@ -34,8 +34,6 @@ const ON_START_EVENT = 'ON_START';
 const ON_STOP_EVENT = 'ON_STOP';
 
 const CHANGE_EVENT_HANDLERS: EventHandlerType[] = [];
-const FOCUS_EVENT_HANDLERS: EventHandlerType[] = [];
-const BLUR_EVENT_HANDLERS: EventHandlerType[] = [];
 
 type EventHandlerType = (state: AppStateStatus) => void;
 type LifecycleEventType = {
@@ -67,24 +65,12 @@ const addEventListener = (
   if (event === 'change') {
     return subscribeToEvent(handler, CHANGE_EVENT_HANDLERS);
   }
-  if (event === 'focus') {
-    return subscribeToEvent(handler, FOCUS_EVENT_HANDLERS);
-  }
-  if (event === 'blur') {
-    return subscribeToEvent(handler, BLUR_EVENT_HANDLERS);
-  }
   return AppState.addEventListener(event, handler);
 };
 
 const dispatchEvent = (oldState: AppStateStatus, newState: AppStateStatus) => {
   if (oldState === newState) {
     return;
-  }
-  if (newState === 'active') {
-    FOCUS_EVENT_HANDLERS.forEach(handler => handler(newState));
-  }
-  if (newState === 'background') {
-    BLUR_EVENT_HANDLERS.forEach(handler => handler(newState));
   }
   CHANGE_EVENT_HANDLERS.forEach(handler => handler(newState));
 };

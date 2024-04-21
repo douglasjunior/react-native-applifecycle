@@ -71,6 +71,47 @@ export default App;
 
 For more details, see the [Sample Project](https://github.com/douglasjunior/react-native-applifecycle/blob/main/Sample/App.tsx).
 
+## Lifecycle States
+
+- `active` - The app is running in the foreground
+- `background` - The app is running in the background. The user is either:
+    - in another app
+    - on the home screen
+- [iOS] `inactive` - This is a state that occurs when transitioning between foreground & background, and during periods of inactivity such as entering the multitasking view, opening the Notification Center or in the event of an incoming call.
+
+For more information, see [React Native documentation](https://reactnative.dev/docs/appstate#app-states).
+
+## Events
+
+### `change`
+    
+This event is received when the app state has changed. The listener is called with one of the current app state values.
+
+### `memoryWarning`, `focus`, `blur`, etc
+
+Falls back to [AppState](https://reactnative.dev/docs/appstate#events)
+
+## Methods
+
+### `addEventListener()`
+
+    ```ts
+    static addEventListener(
+      type: AppStateEvent,
+      listener: (state: AppStateStatus) => void,
+    ): NativeEventSubscription;
+    ```
+
+    Sets up a function that will be called whenever the specified event type on Lifecycle occurs. Valid values for `eventType` are listed above. Returns the `EventSubscription`.
+
+## Properties
+
+### `currentState`
+
+    ```ts
+    static currentState: AppStateStatus;
+    ```
+
 ## Contribute
 
 New features, bug fixes and improvements are welcome! For questions and suggestions use the [issues](https://github.com/douglasjunior/react-native-applifecycle/issues).
