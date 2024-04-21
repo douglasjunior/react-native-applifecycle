@@ -39,6 +39,9 @@ function App(): React.JSX.Element {
 
   const handleOpenSecondActivity = useCallback(async () => {
     try {
+      /**
+       * Opens a second Android activity to demonstrate the difference between AppState and Lifecycle events.
+       */
       await Linking.openURL('sampleapp://second');
     } catch (err) {
       console.warn(err);
