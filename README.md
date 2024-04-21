@@ -4,7 +4,7 @@
 [![npm version](https://img.shields.io/npm/v/react-native-applifecycle.svg)](https://www.npmjs.com/package/react-native-applifecycle)
 [![npm downloads](https://img.shields.io/npm/dt/react-native-applifecycle.svg)](https://www.npmjs.com/package/react-native-applifecycle?activeTab=versions)
 
-⚛ Provides functionality to determine whether the app is in the foreground or background and notifies you when the state changes.
+⚛ Enhances the reliability of managing app lifecycles across iOS and Android platforms, ensuring consistent behavior regarding foreground and background states.
 
 It implements the [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) for **Android** and falls back to the [AppState](https://reactnative.dev/docs/appstate) for **iOS**.
 
