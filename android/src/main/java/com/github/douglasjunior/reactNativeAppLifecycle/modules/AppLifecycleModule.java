@@ -35,31 +35,39 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecycleObserver {
-
     private static final String MODULE_NAME = "ReactNativeAppLifecycle";
     private static final String ON_START_EVENT = "ON_START";
     private static final String ON_STOP_EVENT = "ON_STOP";
+    private final ReactApplicationContext reactApplicationContext;
 
     public AppLifecycleModule(ReactApplicationContext reactApplicationContext) {
-        super(reactApplicationContext);
+        this.reactApplicationContext = reactApplicationContext;
+    }
+
+    @Override
+    public void initialize() {
+        reactApplicationContext.getCurrentActivity().runOnUiThread(() ->
+                ProcessLifecycleOwner
+                        .get()
+                        .getLifecycle()
+                        .addObserver(AppLifecycleModule.this)
+        );
+    }
+
+    @Override
+    public void invalidate() {
+        reactApplicationContext.getCurrentActivity().runOnUiThread(() ->
+                ProcessLifecycleOwner
+                        .get()
+                        .getLifecycle()
+                        .removeObserver(AppLifecycleModule.this)
+        );
     }
 
     @NonNull
     @Override
     public String getName() {
         return MODULE_NAME;
-    }
-
-    @ReactMethod
-    public void init() {
-        getReactApplicationContext().getCurrentActivity().runOnUiThread(() ->
-                ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleModule.this));
-    }
-
-    @ReactMethod
-    public void destroy() {
-        getReactApplicationContext().getCurrentActivity().runOnUiThread(() ->
-                ProcessLifecycleOwner.get().getLifecycle().removeObserver(AppLifecycleModule.this));
     }
 
     @Override
@@ -91,7 +99,7 @@ public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecyc
     private void sendEvent(String type) {
         WritableMap params = new WritableNativeMap();
         params.putString("type", type);
-        getReactApplicationContext()
+        reactApplicationContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(MODULE_NAME, params);
     }

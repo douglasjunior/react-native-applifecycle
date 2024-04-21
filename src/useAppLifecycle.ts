@@ -24,6 +24,11 @@ import {useEffect, useState} from 'react';
 
 import AppLifecycle from './AppLifecycle';
 
+/**
+ * A hook to get the current app state.
+ *
+ * @returns The current app state.
+ */
 const useAppLifecycle = () => {
   const [appState, setAppState] = useState(AppLifecycle.currentState);
 

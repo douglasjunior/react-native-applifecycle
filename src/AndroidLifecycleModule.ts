@@ -25,14 +25,17 @@ import {
   NativeEventSubscription,
   NativeModules,
   NativeEventEmitter,
-  EmitterSubscription,
+  AppState,
+  AppStateEvent,
 } from 'react-native';
 
 const NATIVE_MODULE_NAME = 'ReactNativeAppLifecycle';
 const ON_START_EVENT = 'ON_START';
 const ON_STOP_EVENT = 'ON_STOP';
 
-const EVENT_HANDLERS: EventHandlerType[] = [];
+const CHANGE_EVENT_HANDLERS: EventHandlerType[] = [];
+const FOCUS_EVENT_HANDLERS: EventHandlerType[] = [];
+const BLUR_EVENT_HANDLERS: EventHandlerType[] = [];
 
 type EventHandlerType = (state: AppStateStatus) => void;
 type LifecycleEventType = {
@@ -41,75 +44,67 @@ type LifecycleEventType = {
 
 let currentState: AppStateStatus = 'background';
 
-const addEventListener = (
-  event: 'change',
+const subscribeToEvent = (
   handler: EventHandlerType,
+  handlers: EventHandlerType[],
 ): NativeEventSubscription => {
-  if (event !== 'change') {
-    return {remove: () => {}};
-  }
-  EVENT_HANDLERS.push(handler);
+  handlers.push(handler);
 
   return {
     remove: () => {
-      const index = EVENT_HANDLERS.indexOf(handler);
+      const index = handlers.indexOf(handler);
       if (index !== -1) {
-        EVENT_HANDLERS.splice(index, 1);
+        handlers.splice(index, 1);
       }
     },
   };
 };
 
-let nativeEvent: EmitterSubscription | undefined;
-let eventEmitter: NativeEventEmitter | undefined;
+const addEventListener = (
+  event: AppStateEvent,
+  handler: EventHandlerType,
+): NativeEventSubscription => {
+  if (event === 'change') {
+    return subscribeToEvent(handler, CHANGE_EVENT_HANDLERS);
+  }
+  if (event === 'focus') {
+    return subscribeToEvent(handler, FOCUS_EVENT_HANDLERS);
+  }
+  if (event === 'blur') {
+    return subscribeToEvent(handler, BLUR_EVENT_HANDLERS);
+  }
+  return AppState.addEventListener(event, handler);
+};
 
 const dispatchEvent = (oldState: AppStateStatus, newState: AppStateStatus) => {
   if (oldState === newState) {
     return;
   }
-
-  EVENT_HANDLERS.forEach(handler => handler(newState));
+  if (newState === 'active') {
+    FOCUS_EVENT_HANDLERS.forEach(handler => handler(newState));
+  }
+  if (newState === 'background') {
+    BLUR_EVENT_HANDLERS.forEach(handler => handler(newState));
+  }
+  CHANGE_EVENT_HANDLERS.forEach(handler => handler(newState));
 };
 
-const init = () => {
-  if (!eventEmitter) {
-    eventEmitter = new NativeEventEmitter(NativeModules[NATIVE_MODULE_NAME]);
-  }
-  if (!nativeEvent) {
-    nativeEvent = eventEmitter.addListener(
-      NATIVE_MODULE_NAME,
-      (event: LifecycleEventType) => {
-        const oldState = currentState;
-        switch (event.type) {
-          case ON_START_EVENT:
-            currentState = 'active';
-            break;
-          case ON_STOP_EVENT:
-            currentState = 'background';
-            break;
-          default:
-            currentState = 'unknown';
-        }
-        dispatchEvent(oldState, currentState);
-      },
-    );
-  }
-  NativeModules[NATIVE_MODULE_NAME].init();
-};
+const eventEmitter = new NativeEventEmitter(NativeModules[NATIVE_MODULE_NAME]);
 
-const destroy = () => {
-  if (nativeEvent) {
-    if ((eventEmitter as any)?.removeSubscription) {
-      // fallback compatibility with RN <= 0.72.X
-      (eventEmitter as any)?.removeSubscription?.(nativeEvent);
-    } else if (nativeEvent?.remove) {
-      // RN >= 0.73.X
-      nativeEvent.remove();
-    }
-    nativeEvent = undefined;
+eventEmitter.addListener(NATIVE_MODULE_NAME, (event: LifecycleEventType) => {
+  const oldState = currentState;
+  switch (event.type) {
+    case ON_START_EVENT:
+      currentState = 'active';
+      break;
+    case ON_STOP_EVENT:
+      currentState = 'background';
+      break;
+    default:
+      currentState = 'unknown';
   }
-  NativeModules[NATIVE_MODULE_NAME].destroy();
-};
+  dispatchEvent(oldState, currentState);
+});
 
 const AndroidLifecycleModule = {
   addEventListener,
@@ -117,8 +112,6 @@ const AndroidLifecycleModule = {
     return currentState;
   },
   isAvailable: true,
-  init,
-  destroy,
 };
 
 export default AndroidLifecycleModule;

@@ -35,7 +35,7 @@ def REACT_NATIVE_VERSION = reactProperties.getProperty("VERSION_NAME")
 def REACT_NATIVE_MINOR_VERSION = REACT_NATIVE_VERSION.startsWith("0.0.0-") ? 1000 : REACT_NATIVE_VERSION.split("\\.")[1].toInteger()
 
 buildscript {
-    ext.safeExtGet = {prop, fallback ->
+    ext.safeExtGet = { prop, fallback ->
         rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
     }
     ext.IS_ROOT = project == rootProject
@@ -59,9 +59,7 @@ apply plugin: 'com.android.library'
 
 android {
     namespace "com.github.douglasjunior.reactNativeAppLifecycle"
-
     compileSdkVersion safeExtGet("compileSdkVersion", 33)
-
     defaultConfig {
         minSdkVersion safeExtGet('minSdkVersion', 21)
         //noinspection OldTargetApi
@@ -90,12 +88,12 @@ repositories {
 
 dependencies {
     if (REACT_NATIVE_MINOR_VERSION >= 71) {
-        implementation "com.facebook.react:react-android${IS_ROOT ? ':+' : ''}" // version substituted by RNGP
+        implementation "com.facebook.react:react-android${IS_ROOT ? ':+' : ''}"
+        // version substituted by RNGP
     } else {
         // noinspection GradleDynamicVersion
         implementation "com.facebook.react:react-native:+" // From node_modules
     }
 
-    implementation "androidx.lifecycle:lifecycle-extensions:${safeExtGet('lifecycleExtensionsVersion', '2.2.0')}"
+    implementation "androidx.lifecycle:lifecycle-process:${safeExtGet('lifecycleVersion', '2.7.0')}"
 }
-

@@ -26,19 +26,6 @@ import AndroidLifecycleModule from './AndroidLifecycleModule';
 
 const AppLifecycle = {
   /**
-   * [Android Only] Initializes the native module and starts listening to the app lifecycle events.
-   *
-   * Should be called once when your app starts.
-   */
-  init: Platform.OS === 'android' ? AndroidLifecycleModule.init : () => {},
-  /**
-   * [Android Only] Stops listening to the app lifecycle events.
-   *
-   * Should be called when your app is about to be destroyed.
-   */
-  destroy:
-    Platform.OS === 'android' ? AndroidLifecycleModule.destroy : () => {},
-  /**
    * Adds an event listener to the app lifecycle events.
    */
   addEventListener:
