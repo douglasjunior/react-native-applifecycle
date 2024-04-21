@@ -6,11 +6,11 @@
 
 ⚛ Provides functionality to determine whether the app is in the foreground or background and notifies you when the state changes.
 
-It implements the [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle?hl=pt-br) for **Android** and falls back to the [AppState](https://archive.reactnative.dev/docs/appstate) for **iOS**.
+It implements the [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) for **Android** and falls back to the [AppState](https://reactnative.dev/docs/appstate) for **iOS**.
 
 ## Why Use This?
 
-The original [AppState](https://archive.reactnative.dev/docs/appstate) API provided by React Native behaves differently between Android and iOS, particularly regarding the `background` state:
+The original [AppState](https://reactnative.dev/docs/appstate) API provided by React Native behaves differently between Android and iOS, particularly regarding the `background` state:
 
 - On iOS, the `background` state signifies that the entire app is in the background.
 - On Android, the `background` state indicates that the React Native Activity is in the background, which might not necessarily mean the entire app is in the background.
