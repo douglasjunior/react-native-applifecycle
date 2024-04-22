@@ -112,6 +112,12 @@ Sets up a function that will be called whenever the specified event type on Life
 static currentState: AppStateStatus;
 ```
 
+## Jest mock
+
+```js
+jest.mock('react-native-applifecycle/dist/AppLifecycle', () => require('react-native-applifecycle/jest/AppLifecycleMock'));
+```
+
 ## Contribute
 
 New features, bug fixes and improvements are welcome! For questions and suggestions use the [issues](https://github.com/douglasjunior/react-native-applifecycle/issues).
