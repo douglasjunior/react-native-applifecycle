@@ -40,7 +40,7 @@ type LifecycleEventType = {
   type: typeof ON_START_EVENT | typeof ON_STOP_EVENT;
 };
 
-let currentState: AppStateStatus = 'background';
+let currentState: AppStateStatus = AppState.currentState;
 
 const subscribeToEvent = (
   handler: EventHandlerType,
