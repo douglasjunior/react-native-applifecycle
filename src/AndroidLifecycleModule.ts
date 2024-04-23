@@ -35,7 +35,7 @@ const ON_STOP_EVENT = 'ON_STOP';
 
 const CHANGE_EVENT_HANDLERS: EventHandlerType[] = [];
 
-type EventHandlerType = (state: AppStateStatus) => void;
+export type EventHandlerType = (state: AppStateStatus) => void;
 type LifecycleEventType = {
   type: typeof ON_START_EVENT | typeof ON_STOP_EVENT;
 };
@@ -97,7 +97,9 @@ const AndroidLifecycleModule = {
   get currentState(): AppStateStatus {
     return currentState;
   },
-  isAvailable: true,
+  get isAvailable(): boolean {
+    return currentState !== 'unknown';
+  },
 };
 
 export default AndroidLifecycleModule;

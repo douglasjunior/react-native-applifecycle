@@ -1,7 +1,7 @@
 {
   "name": "react-native-applifecycle",
   "displayName": "React-Native App Lifecycle",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "⚛ Enhances the reliability of managing app lifecycles across iOS and Android platforms, ensuring consistent behavior regarding foreground and background states.",
   "main": "src",
   "license": "MIT",

@@ -20,24 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import {AppState, AppStateStatus, Platform} from 'react-native';
+import {
+  AppState,
+  AppStateStatus,
+  Platform,
+  AppStateEvent,
+  NativeEventSubscription,
+} from 'react-native';
 
-import AndroidLifecycleModule from './AndroidLifecycleModule';
+import type {EventHandlerType} from './AndroidLifecycleModule';
 
 const AppLifecycle = {
   /**
    * Adds an event listener to the app lifecycle events.
    */
-  addEventListener:
-    Platform.OS === 'android'
-      ? AndroidLifecycleModule.addEventListener
-      : AppState.addEventListener,
+  addEventListener(
+    event: AppStateEvent,
+    handler: EventHandlerType,
+  ): NativeEventSubscription {
+    return Platform.OS === 'android'
+      ? require('./AndroidLifecycleModule').default.addEventListener(
+          event,
+          handler,
+        )
+      : AppState.addEventListener(event, handler);
+  },
   /**
    * Returns the current app state.
    */
   get currentState(): AppStateStatus {
     return Platform.OS === 'android'
-      ? AndroidLifecycleModule.currentState
+      ? require('./AndroidLifecycleModule').default.currentState
       : AppState.currentState;
   },
   /**
@@ -45,7 +58,7 @@ const AppLifecycle = {
    */
   get isAvailable(): boolean {
     return Platform.OS === 'android'
-      ? AndroidLifecycleModule.isAvailable
+      ? require('./AndroidLifecycleModule').default.isAvailable
       : AppState.isAvailable;
   },
 };
