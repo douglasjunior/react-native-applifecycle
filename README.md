@@ -15,7 +15,7 @@ The original [AppState](https://reactnative.dev/docs/appstate) API provided by R
 - On iOS, the `background` state signifies that the entire app is in the background.
 - On Android, the `background` state indicates that the React Native Activity is in the background, which might not necessarily mean the entire app is in the background.
 
-By using `react-native-applifecycle`, you can handle these differences seamlessly across both platforms.
+By using `react-native-applifecycle`, you can handle these differences seamlessly across both platforms, ensuring that the state `background` will be dispatched only when the entire app is in background.
 
 ## Install
 
