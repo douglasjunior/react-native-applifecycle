@@ -10,5 +10,10 @@ const AppLifecycle = {
 
 module.exports = {
   __esModule: true,
-  default: AppLifecycle,
+  default: {
+    AppLifecycle, 
+    useAppLifecycle: jest.fn(),
+  },
+  useAppLifecycle: jest.fn(),
+  AppLifecycle,
 };
