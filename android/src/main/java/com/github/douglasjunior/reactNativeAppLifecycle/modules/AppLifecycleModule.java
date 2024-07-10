@@ -46,22 +46,18 @@ public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecyc
 
     @Override
     public void initialize() {
-        reactApplicationContext.getCurrentActivity().runOnUiThread(() ->
-                ProcessLifecycleOwner
-                        .get()
-                        .getLifecycle()
-                        .addObserver(AppLifecycleModule.this)
-        );
+        reactApplicationContext.runOnUiQueueThread(() -> ProcessLifecycleOwner
+                .get()
+                .getLifecycle()
+                .addObserver(AppLifecycleModule.this));
     }
 
     @Override
     public void invalidate() {
-        reactApplicationContext.getCurrentActivity().runOnUiThread(() ->
-                ProcessLifecycleOwner
-                        .get()
-                        .getLifecycle()
-                        .removeObserver(AppLifecycleModule.this)
-        );
+        reactApplicationContext.runOnUiQueueThread(() -> ProcessLifecycleOwner
+                .get()
+                .getLifecycle()
+                .removeObserver(AppLifecycleModule.this));
     }
 
     @NonNull
