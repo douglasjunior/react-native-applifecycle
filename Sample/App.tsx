@@ -22,7 +22,12 @@ function App(): React.JSX.Element {
   ]);
 
   useEffect(() => {
+    console.log('useAppLifecycle:' + currentLifecycle);
+  }, [currentLifecycle]);
+
+  useEffect(() => {
     const listener = AppLifecycle.addEventListener('change', state => {
+      console.log('AppLifecycle:change:' + state);
       setLifecycleHistory(prevState => [...prevState, state]);
     });
 
@@ -31,6 +36,7 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     const listener = AppState.addEventListener('change', state => {
+      console.log('AppState:change:' + state);
       setAppStateHistory(prevState => [...prevState, state]);
     });
 

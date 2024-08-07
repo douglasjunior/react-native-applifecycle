@@ -27,13 +27,13 @@ public class SecondActivity extends AppCompatActivity {
 //            startActivity(new Intent(this, MainActivity.class));
         });
 
-        Calendar cal = Calendar.getInstance();
-        Intent intent = new Intent(this, BackgroundServiceExample.class);
-        intent.putExtra("time", new Date().getTime());
-        PendingIntent pIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 5000, pIntent);
+        // Calendar cal = Calendar.getInstance();
+        // Intent intent = new Intent(this, BackgroundServiceExample.class);
+        // intent.putExtra("time", new Date().getTime());
+        // PendingIntent pIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        // AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        // alarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+        //         SystemClock.elapsedRealtime() + 5000, pIntent);
     }
 
 }
