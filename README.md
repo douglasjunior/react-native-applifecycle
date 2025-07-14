@@ -118,6 +118,10 @@ static currentState: AppStateStatus;
 jest.mock('react-native-applifecycle/dist/AppLifecycle', () => require('react-native-applifecycle/jest/AppLifecycleMock'));
 ```
 
+## Limitations
+
+In development mode, some lifecycle events may not trigger as expected due to how React Native handles backgrounding and hot reloading during development. Read more https://github.com/douglasjunior/react-native-applifecycle/issues/13#issuecomment-3065908934
+
 ## Contribute
 
 New features, bug fixes and improvements are welcome! For questions and suggestions use the [issues](https://github.com/douglasjunior/react-native-applifecycle/issues).
