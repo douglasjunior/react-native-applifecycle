@@ -8,6 +8,8 @@
 
 It implements the [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) for **Android** and falls back to the [AppState](https://reactnative.dev/docs/appstate) for **iOS**.
 
+Supports both React Native's New Architecture and the old architecture.
+
 ## Why Use This?
 
 The original [AppState](https://reactnative.dev/docs/appstate) API provided by React Native behaves differently between Android and iOS, particularly regarding the `background` state:
@@ -27,21 +29,6 @@ Or
 ```bash
 npm i -S react-native-applifecycle
 ```
-
-### React Native architecture support
-
-The public API works with both the old architecture and the New Architecture.
-On Android, the New Architecture uses a codegen-backed TurboModule; old
-architecture builds use the legacy native module with the same process lifecycle
-observer and events. Autolinking selects the implementation automatically. On
-iOS, both architectures continue to use React Native's `AppState`.
-
-Keep the app's existing `newArchEnabled` setting. React Native 0.82 and later
-always use the New Architecture, including when that setting is absent.
-
-The compatibility workflow builds consuming Android apps with React Native
-0.73.7 in both architectures and 0.88.1 in the New Architecture.
-It tests the packed npm library so missing codegen sources are caught before release.
 
 ## Usage
 
