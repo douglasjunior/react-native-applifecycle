@@ -28,7 +28,6 @@
   "homepage": "https://github.com/douglasjunior/react-native-applifecycle",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
     "publish-script": "node scripts/publish.js"
   },
   "codegenConfig": {
