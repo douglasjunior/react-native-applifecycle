@@ -23,28 +23,39 @@
 package com.github.douglasjunior.reactNativeAppLifecycle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.facebook.react.ReactPackage;
+import com.facebook.react.TurboReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.ViewManager;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
+import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 import com.github.douglasjunior.reactNativeAppLifecycle.modules.AppLifecycleModule;
 
 import java.util.Collections;
-import java.util.List;
 
-public class AppLifecyclePackage implements ReactPackage {
-    @NonNull
+public class AppLifecyclePackage extends TurboReactPackage {
+    @Nullable
     @Override
-    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactApplicationContext) {
-        return Collections.singletonList(
-                new AppLifecycleModule(reactApplicationContext)
-        );
+    public NativeModule getModule(@NonNull String name, @NonNull ReactApplicationContext reactApplicationContext) {
+        return AppLifecycleModule.NAME.equals(name) ? new AppLifecycleModule(reactApplicationContext) : null;
     }
 
     @NonNull
     @Override
-    public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactApplicationContext) {
-        return Collections.emptyList();
+    public ReactModuleInfoProvider getReactModuleInfoProvider() {
+        return () -> Collections.singletonMap(
+                AppLifecycleModule.NAME,
+                new ReactModuleInfo(
+                        AppLifecycleModule.NAME,
+                        AppLifecycleModule.class.getName(),
+                        false,
+                        false,
+                        false,
+                        false,
+                        TurboModule.class.isAssignableFrom(AppLifecycleModule.class)
+                )
+        );
     }
 }

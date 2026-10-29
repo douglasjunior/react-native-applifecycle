@@ -23,11 +23,12 @@
 import {
   AppStateStatus,
   NativeEventSubscription,
-  NativeModules,
   NativeEventEmitter,
   AppState,
   AppStateEvent,
 } from 'react-native';
+
+import NativeAppLifecycle from './specs/NativeAppLifecycle';
 
 const NATIVE_MODULE_NAME = 'ReactNativeAppLifecycle';
 const ON_START_EVENT = 'ON_START';
@@ -75,7 +76,7 @@ const dispatchEvent = (oldState: AppStateStatus, newState: AppStateStatus) => {
   CHANGE_EVENT_HANDLERS.forEach(handler => handler(newState));
 };
 
-const eventEmitter = new NativeEventEmitter(NativeModules[NATIVE_MODULE_NAME]);
+const eventEmitter = new NativeEventEmitter(NativeAppLifecycle);
 
 eventEmitter.addListener(NATIVE_MODULE_NAME, (event: LifecycleEventType) => {
   const oldState = currentState;

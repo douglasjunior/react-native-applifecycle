@@ -5,11 +5,13 @@
 yarn.lock
 tsconfig.json
 babel.config.js
+jest.config.js
 node_modules/
 __tests__/
 screenshots/
 Sample/
-src/
+src/*
+!src/specs/
 scripts/
 android/build/
 android/.idea/

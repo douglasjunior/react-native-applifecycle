@@ -28,7 +28,16 @@
   "homepage": "https://github.com/douglasjunior/react-native-applifecycle",
   "scripts": {
     "build": "tsc",
+    "test": "jest",
     "publish-script": "node scripts/publish.js"
+  },
+  "codegenConfig": {
+    "name": "AppLifecycleSpec",
+    "type": "modules",
+    "jsSrcsDir": "src/specs",
+    "android": {
+      "javaPackageName": "com.github.douglasjunior.reactNativeAppLifecycle.modules"
+    }
   },
   "peerDependencies": {
     "react-native": ">=0.60"

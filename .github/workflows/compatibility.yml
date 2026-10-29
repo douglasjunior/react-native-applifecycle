@@ -1,0 +1,80 @@
+name: Architecture compatibility
+
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn test --runInBand
+      - run: yarn eslint src __tests__ jest.config.js
+
+  android:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - react-native: 0.73.7
+            new-arch: false
+          - react-native: 0.73.7
+            new-arch: true
+          - react-native: 0.88.1
+            new-arch: true
+    name: Android RN ${{ matrix.react-native }} / newArch=${{ matrix.new-arch }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Pack the published library, including the codegen spec
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+          npm pkg set main=dist types=dist
+          echo "LIBRARY_TARBALL=$RUNNER_TEMP/$(npm pack --silent --pack-destination "$RUNNER_TEMP")" >> "$GITHUB_ENV"
+      - name: Prepare the RN 0.73 sample
+        if: matrix.react-native == '0.73.7'
+        run: cp -R Sample "$RUNNER_TEMP/CompatibilityApp"
+      - name: Prepare a modern consuming app
+        if: matrix.react-native != '0.73.7'
+        run: >-
+          npx --yes @react-native-community/cli@20.2.0 init CompatibilityApp
+          --version '${{ matrix.react-native }}' --skip-install --skip-git-init
+          --directory "$RUNNER_TEMP/CompatibilityApp"
+      - name: Install the packed library
+        working-directory: ${{ runner.temp }}/CompatibilityApp
+        run: npm install "$LIBRARY_TARBALL"
+      - name: Bundle the public API in the consuming app
+        working-directory: ${{ runner.temp }}/CompatibilityApp
+        run: |
+          cp "$GITHUB_WORKSPACE/Sample/App.tsx" App.tsx
+          npx react-native bundle --platform android --entry-file index.js --dev false \
+            --bundle-output "$RUNNER_TEMP/compatibility.android.bundle"
+          npx react-native bundle --platform ios --entry-file index.js --dev false \
+            --bundle-output "$RUNNER_TEMP/compatibility.ios.bundle"
+      - name: Test native lifecycle behavior and build the consuming app
+        working-directory: ${{ runner.temp }}/CompatibilityApp/android
+        run: >-
+          ./gradlew :react-native-applifecycle:testDebugUnitTest :app:assembleDebug
+          -PnewArchEnabled=${{ matrix.new-arch }} -PreactNativeArchitectures=x86_64
+          --console=plain
