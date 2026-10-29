@@ -8,6 +8,8 @@
 
 It implements the [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) for **Android** and falls back to the [AppState](https://reactnative.dev/docs/appstate) for **iOS**.
 
+Supports both React Native's New Architecture and the old architecture.
+
 ## Why Use This?
 
 The original [AppState](https://reactnative.dev/docs/appstate) API provided by React Native behaves differently between Android and iOS, particularly regarding the `background` state:
