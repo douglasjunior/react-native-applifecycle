@@ -29,6 +29,11 @@
       <stop offset="100%" stop-color="#ff6a8e"/>
     </linearGradient>
 
+    <!-- Canvas Clip for Bottom Stripe -->
+    <clipPath id="canvas-clip">
+      <rect width="1280" height="340" rx="20"/>
+    </clipPath>
+
     <!-- Filters -->
     <filter id="cta-glow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="6" result="blur"/>
@@ -58,8 +63,8 @@
       }
 
       @keyframes bannerTwinkle {
-        0%, 100% { opacity: 0.3; transform: scale(0.9); }
-        50% { opacity: 0.9; transform: scale(1.15); }
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.9; }
       }
 
       @keyframes bannerOrbit {
@@ -120,7 +125,7 @@
   <!-- Outer Border Frame -->
   <rect x="1" y="1" width="1278" height="338" rx="19" fill="none" stroke="rgba(150, 160, 255, 0.16)" stroke-width="2"/>
   <!-- Bottom Stripe -->
-  <rect x="0" y="336" width="1280" height="4" fill="url(#banner-cosmic-stripe)"/>
+  <rect x="0" y="336" width="1280" height="4" fill="url(#banner-cosmic-stripe)" clip-path="url(#canvas-clip)"/>
 
   <!-- ==================== HEADER / TOP ROW ==================== -->
   <g transform="translate(60, 0)">
@@ -138,7 +143,7 @@
     <g transform="translate(108, 48)">
       <!-- Pill -->
       <g transform="translate(0, 2)">
-        <rect width="250" height="24" rx="12" fill="rgba(139, 123, 255, 0.12)" stroke="#8b7bff" stroke-width="1"/>
+        <rect width="290" height="24" rx="12" fill="rgba(139, 123, 255, 0.12)" stroke="#8b7bff" stroke-width="1"/>
         <circle cx="12" cy="12" r="3.5" fill="#3fd0ff"/>
         <text x="24" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#e9ebfa" letter-spacing="1">DOUGLAS JUNIOR · OPEN SOURCE</text>
       </g>
@@ -152,62 +157,66 @@
     </g>
 
     <!-- Visit Portfolio CTA Button -->
-    <g class="anim-cta" transform="translate(940, 60)">
-      <rect width="220" height="48" rx="24" fill="url(#banner-cta-grad)" stroke="#3fd0ff" stroke-width="1.8" filter="url(#cta-glow)"/>
-      <text x="110" y="29" font-family="system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">
-        douglasjunior.work ↗
-      </text>
+    <g transform="translate(940, 60)">
+      <g class="anim-cta">
+        <rect width="220" height="48" rx="24" fill="url(#banner-cta-grad)" stroke="#3fd0ff" stroke-width="1.8" filter="url(#cta-glow)"/>
+        <text x="110" y="29" font-family="system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">
+          douglasjunior.work ↗
+        </text>
+      </g>
     </g>
   </g>
 
   <!-- ==================== BOTTOM ROW: SHOWCASE CARDS ==================== -->
-  <g class="anim-float-subtle" transform="translate(60, 185)">
-    <!-- Card 1: Freemotion -->
-    <g transform="translate(0, 0)">
-      <rect width="272" height="110" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(255, 106, 142, 0.28)" stroke-width="1.2"/>
-      <circle cx="28" cy="28" r="14" fill="rgba(255, 106, 142, 0.15)"/>
-      <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">🎬</text>
-      <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700" fill="#e9ebfa">freemotion</text>
-      <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#ff6a8e">React Video Engine</text>
-      <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">
-        Write frame-perfect videos using pure React components and hot-reload.
-      </text>
-    </g>
+  <g transform="translate(60, 185)">
+    <g class="anim-float-subtle">
+      <!-- Card 1: Freemotion -->
+      <g transform="translate(0, 0)">
+        <rect width="272" height="124" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(255, 106, 142, 0.28)" stroke-width="1.2"/>
+        <circle cx="28" cy="28" r="14" fill="rgba(255, 106, 142, 0.15)"/>
+        <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">🎬</text>
+        <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e9ebfa">freemotion</text>
+        <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#ff6a8e">React Video Engine</text>
+        <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Frame-perfect videos with pure</text>
+        <text x="16" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">React components and hot-reload.</text>
+      </g>
 
-    <!-- Card 2: React Native Keyboard Manager -->
-    <g transform="translate(296, 0)">
-      <rect width="272" height="110" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(139, 123, 255, 0.28)" stroke-width="1.2"/>
-      <circle cx="28" cy="28" r="14" fill="rgba(139, 123, 255, 0.15)"/>
-      <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">⌨️</text>
-      <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700" fill="#e9ebfa">react-native-keyboard-manager</text>
-      <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#8b7bff">iOS Keyboard Avoidance</text>
-      <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">
-        Prevent keyboard sliding up and covering inputs on React Native iOS.
-      </text>
-    </g>
+      <!-- Card 2: React Native Keyboard Manager -->
+      <g transform="translate(296, 0)" opacity="0.85">
+        <rect width="272" height="124" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(139, 123, 255, 0.28)" stroke-width="1.2"/>
+        <circle cx="28" cy="28" r="14" fill="rgba(139, 123, 255, 0.15)"/>
+        <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">⌨️</text>
+        <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e9ebfa" textLength="204" lengthAdjust="spacingAndGlyphs">react-native-keyboard-manager</text>
+        <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#8b7bff">iOS Keyboard Avoidance</text>
+        <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Prevent the keyboard from covering</text>
+        <text x="16" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">inputs on React Native iOS.</text>
+        <g transform="translate(16, 98)">
+          <rect width="88" height="16" rx="8" fill="rgba(251,191,36,0.12)" stroke="#fbbf24" stroke-width="1"/>
+          <text x="44" y="11.5" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" letter-spacing="0.6" fill="#fbbf24">DEPRECATED</text>
+        </g>
+      </g>
 
-    <!-- Card 3: React Native Get Location -->
-    <g transform="translate(592, 0)">
-      <rect width="272" height="110" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(63, 208, 255, 0.28)" stroke-width="1.2"/>
-      <circle cx="28" cy="28" r="14" fill="rgba(63, 208, 255, 0.15)"/>
-      <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">📍</text>
-      <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700" fill="#e9ebfa">react-native-get-location</text>
-      <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#3fd0ff">Native Device Geolocation</text>
-      <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">
-        Simple, lightweight native location requests for Android and iOS.
-      </text>
-    </g>
+      <!-- Card 3: React Native Get Location -->
+      <g transform="translate(592, 0)">
+        <rect width="272" height="124" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(63, 208, 255, 0.28)" stroke-width="1.2"/>
+        <circle cx="28" cy="28" r="14" fill="rgba(63, 208, 255, 0.15)"/>
+        <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">📍</text>
+        <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e9ebfa">react-native-get-location</text>
+        <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#3fd0ff">Native Device Geolocation</text>
+        <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Lightweight native location</text>
+        <text x="16" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">requests for Android and iOS.</text>
+      </g>
 
-    <!-- Card 4: React Native Simple Dialogs -->
-    <g transform="translate(888, 0)">
-      <rect width="272" height="110" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(88, 224, 138, 0.28)" stroke-width="1.2"/>
-      <circle cx="28" cy="28" r="14" fill="rgba(88, 224, 138, 0.15)"/>
-      <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">💬</text>
-      <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700" fill="#e9ebfa">react-native-simple-dialogs</text>
-      <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#58e08a">Cross-Platform Dialogs</text>
-      <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">
-        Clean, native modal dialogs, confirm popups, and progress indicators.
-      </text>
+      <!-- Card 4: React Native Simple Dialogs -->
+      <g transform="translate(888, 0)">
+        <rect width="272" height="124" rx="14" fill="rgba(13, 15, 36, 0.7)" stroke="rgba(88, 224, 138, 0.28)" stroke-width="1.2"/>
+        <circle cx="28" cy="28" r="14" fill="rgba(88, 224, 138, 0.15)"/>
+        <text x="28" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle">💬</text>
+        <text x="52" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e9ebfa">react-native-simple-dialogs</text>
+        <text x="52" y="44" font-family="ui-monospace, monospace" font-size="11" fill="#58e08a">Cross-Platform Dialogs</text>
+        <text x="16" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Native dialogs, confirm popups and</text>
+        <text x="16" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">progress indicators.</text>
+      </g>
     </g>
   </g>
 </svg>

@@ -13,7 +13,7 @@
   <a href="https://www.npmjs.com/package/react-native-applifecycle"><img src="https://img.shields.io/npm/v/react-native-applifecycle?style=flat-square&color=3FD0FF" alt="npm version"></a>
   <a href="https://www.npmjs.com/package/react-native-applifecycle"><img src="https://img.shields.io/npm/dt/react-native-applifecycle?style=flat-square&color=FF6A8E" alt="npm downloads"></a>
   <img src="https://img.shields.io/badge/platform-Android_%7C_iOS-lightgrey?style=flat-square" alt="Platform Android and iOS">
-  <img src="https://img.shields.io/badge/React_Native->=0.60-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native >= 0.60">
+  <img src="https://img.shields.io/badge/React_Native-%3E%3D0.60-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native >= 0.60">
   <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript strict">
   <a href="https://github.com/douglasjunior/react-native-applifecycle/pulls"><img src="https://img.shields.io/badge/PRs-welcome-22C55E?style=flat-square" alt="PRs welcome"></a>
 </p>
@@ -27,7 +27,7 @@
   <a href="#-usage">Usage</a> ·
   <a href="#-api-reference">API Reference</a> ·
   <a href="#-jest-mock">Jest Mock</a> ·
-  <a href="#-limitations">Limitations</a> ·
+  <a href="#limitations">Limitations</a> ·
   <a href="#-contributing">Contributing</a>
 </p>
 
@@ -88,7 +88,7 @@ export default function App() {
 React Native's built-in [`AppState`](https://reactnative.dev/docs/appstate) exhibits platform inconsistency when handling Android activities:
 
 - **On iOS:** The `background` state accurately reflects that the entire application has been suspended or sent to the home screen / app switcher.
-- **On Android:** React Native's `AppState` binds to the single `ReactActivity`. When another Activity within your application launches (such as a photo selector, payment flow, or secondary screen), the React Activity calls `onStop()`, which causes standard `AppState` to fire `background` even though the user is actively engaged inside your application.
+- **On Android:** React Native's `AppState` binds to the single `ReactActivity`. When another Activity within your application launches (such as a photo selector, payment flow, or secondary screen), the React Activity calls `onPause()`, which causes standard `AppState` to fire `background` even though the user is actively engaged inside your application.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -117,10 +117,8 @@ By using `react-native-applifecycle`, your background sync routines, timeout loc
 
 | Platform / Tool | Supported Version |
 |---|---|
-| **React Native** | `>= 0.60.0` (supports both New and Legacy Architecture) |
+| **React Native** | `>= 0.60.0` |
 | **Android** | `minSdkVersion >= 21` (AndroidX Lifecycle supported) |
-| **iOS** | `>= 11.0` (Native `AppState` fallback) |
-| **TypeScript** | `>= 4.0` |
 
 ---
 
@@ -243,7 +241,7 @@ For an interactive example showcasing the difference between `AppState` and `App
 | `active` | Android & iOS | The application is running in the foreground. At least one activity is visible to the user. |
 | `background` | Android & iOS | The application is running in the background. The user is either on the home screen or inside another app entirely. |
 | `inactive` | iOS | The application is transitioning between foreground and background, or is in an inactive state such as viewing the multitasking app switcher, opening Notification Center, or handling an incoming call. |
-| `unknown` | Android & iOS | Initial state before the first lifecycle event has been dispatched or if lifecycle querying fails. |
+| `unknown` | Android & iOS | Assigned when an unrecognised native lifecycle event is received. On Android the initial value is `AppState.currentState`. |
 
 For additional background on iOS states, refer to the [React Native AppState documentation](https://reactnative.dev/docs/appstate#app-states).
 
@@ -254,9 +252,9 @@ For additional background on iOS states, refer to the [React Native AppState doc
 | Event Type | Handler Signature | Description |
 |---|---|---|
 | `'change'` | `(state: AppStateStatus) => void` | Fired when the overall application transitions between `active`, `background`, or `inactive`. |
-| `'memoryWarning'` | `() => void` | *(iOS fallback)* Emitted when the operating system warns that memory is low. |
-| `'focus'` | `() => void` | *(iOS fallback)* Emitted when the app window gains focus. |
-| `'blur'` | `() => void` | *(iOS fallback)* Emitted when the app window loses focus. |
+| `'memoryWarning'` | `() => void` | *(delegated to React Native `AppState`, all platforms; availability per RN docs)* Emitted when the operating system warns that memory is low. |
+| `'focus'` | `() => void` | *(delegated to React Native `AppState`, all platforms; availability per RN docs)* Emitted when the app window gains focus. |
+| `'blur'` | `() => void` | *(delegated to React Native `AppState`, all platforms; availability per RN docs)* Emitted when the app window loses focus. |
 
 ---
 
@@ -308,7 +306,9 @@ jest.mock('react-native-applifecycle/dist/AppLifecycle', () =>
 
 ---
 
-## ⚠️ Limitations
+<a id="limitations"></a>
+
+## ⚠ Limitations
 
 > [!NOTE]
 > In development mode, some lifecycle events may not trigger as expected due to how React Native manages backgrounding and hot reloading during Metro development sessions.
@@ -326,9 +326,9 @@ Contributions, bug reports, and feature proposals are always welcome!
    ```bash
    yarn build
    ```
-3. Commit your changes following [Conventional Commits](https://www.conventionalcommits.org/):
+3. Commit your changes:
    ```bash
-   git commit -m "feat: add support for new lifecycle trigger"
+   git commit -m "Add support for new lifecycle trigger"
    ```
 4. Push to your branch and open a descriptive [Pull Request](https://github.com/douglasjunior/react-native-applifecycle/pulls).
 

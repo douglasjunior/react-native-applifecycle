@@ -62,9 +62,14 @@
       <feComposite in="SourceGraphic" in2="blur" operator="over"/>
     </filter>
 
+    <!-- Canvas Clip for Bottom Stripe -->
+    <clipPath id="canvas-clip">
+      <rect width="1280" height="640" rx="20"/>
+    </clipPath>
+
     <!-- Screen Clipping -->
     <clipPath id="screen-clip">
-      <rect x="752" y="66" width="346" height="508" rx="30"/>
+      <rect x="22" y="18" width="346" height="508" rx="30"/>
     </clipPath>
 
     <style>
@@ -88,11 +93,10 @@
         .anim-glow-background {
           animation: glowBackground 7.5s ease-in-out infinite;
         }
-        .anim-float-subtle {
-          animation: badgeFloat 4.8s ease-in-out infinite;
-        }
         .anim-pulse-dot {
           animation: pulseDot 1.8s ease-in-out infinite;
+          transform-box: fill-box;
+          transform-origin: center;
         }
         .anim-code-cursor {
           animation: cursorBlink 1s steps(2, start) infinite;
@@ -103,8 +107,8 @@
       }
 
       @keyframes starTwinkle {
-        0%, 100% { opacity: 0.35; transform: scale(0.95); }
-        50% { opacity: 0.95; transform: scale(1.15); }
+        0%, 100% { opacity: 0.35; }
+        50% { opacity: 0.95; }
       }
 
       @keyframes flowDash {
@@ -117,15 +121,15 @@
           opacity: 1;
         }
         33%, 52% {
-          transform: translate(115px, 0px);
+          transform: translate(100px, 0px);
           opacity: 1;
         }
         60%, 82% {
-          transform: translate(230px, 0px);
+          transform: translate(200px, 0px);
           opacity: 1;
         }
         88% {
-          transform: translate(230px, 0px);
+          transform: translate(200px, 0px);
           opacity: 0;
         }
         90% {
@@ -154,11 +158,6 @@
         0%, 54% { opacity: 0.2; transform: scale(1); }
         62%, 84% { opacity: 0.95; transform: scale(1.08); }
         90%, 100% { opacity: 0.2; transform: scale(1); }
-      }
-
-      @keyframes badgeFloat {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
       }
 
       @keyframes pulseDot {
@@ -221,13 +220,13 @@
 
   <!-- Outer Frame & Cosmic Stripe -->
   <rect x="1" y="1" width="1278" height="638" rx="19" fill="none" stroke="rgba(150, 160, 255, 0.16)" stroke-width="2"/>
-  <rect x="0" y="635" width="1280" height="5" fill="url(#cosmic-stripe)"/>
+  <rect x="0" y="635" width="1280" height="5" fill="url(#cosmic-stripe)" clip-path="url(#canvas-clip)"/>
 
   <!-- ==================== LEFT COLUMN: CONTENT ==================== -->
   <g transform="translate(80, 0)">
     <!-- Pill Category -->
     <g transform="translate(0, 88)">
-      <rect width="280" height="32" rx="16" fill="rgba(139, 123, 255, 0.12)" stroke="#8b7bff" stroke-width="1.2"/>
+      <rect width="330" height="32" rx="16" fill="rgba(139, 123, 255, 0.12)" stroke="#8b7bff" stroke-width="1.2"/>
       <circle cx="18" cy="16" r="4" fill="#3fd0ff"/>
       <text x="32" y="21" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#e9ebfa" letter-spacing="1">REACT NATIVE · APP LIFECYCLE</text>
     </g>
@@ -242,10 +241,10 @@
 
     <!-- Subtitle -->
     <text x="0" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#9ba1c7" font-weight="400">
-      Reliable cross-platform app lifecycle management for React Native.
+      Reliable app lifecycle management for React Native.
     </text>
     <text x="0" y="304" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#838ab2" font-weight="400">
-      Accurate foreground &amp; background state tracking via <tspan fill="#3fd0ff" font-weight="600">ProcessLifecycleOwner</tspan>.
+      Foreground/background tracking via <tspan fill="#3fd0ff" font-weight="600">ProcessLifecycleOwner</tspan>.
     </text>
 
     <!-- Feature Cards -->
@@ -256,7 +255,7 @@
         <circle cx="26" cy="26" r="10" fill="rgba(74, 222, 128, 0.15)"/>
         <text x="26" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#4ade80" text-anchor="middle">✓</text>
         <text x="50" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="700" fill="#e9ebfa">No False Background Events on Android</text>
-        <text x="50" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Opening camera, custom tabs or 2nd activities won't falsely trigger background</text>
+        <text x="50" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Camera or custom tabs won't trigger false background</text>
       </g>
 
       <!-- Card 2 -->
@@ -265,7 +264,7 @@
         <circle cx="26" cy="26" r="10" fill="rgba(63, 208, 255, 0.15)"/>
         <text x="26" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#3fd0ff" text-anchor="middle">⚡</text>
         <text x="50" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="700" fill="#e9ebfa">Drop-in AppState Parity &amp; React Hook</text>
-        <text x="50" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Direct replacement for AppState with useAppLifecycle() and addEventListener</text>
+        <text x="50" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Direct AppState replacement with useAppLifecycle() hook</text>
       </g>
 
       <!-- Card 3 -->
@@ -274,23 +273,23 @@
         <circle cx="26" cy="26" r="10" fill="rgba(139, 123, 255, 0.15)"/>
         <text x="26" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#8b7bff" text-anchor="middle">⚛</text>
         <text x="50" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="700" fill="#e9ebfa">AndroidX Lifecycle + iOS AppState Fallback</text>
-        <text x="50" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Modern native integration with Jetpack Lifecycle on Android and native iOS fallback</text>
+        <text x="50" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ba1c7">Jetpack Lifecycle on Android, AppState on iOS</text>
       </g>
     </g>
 
     <!-- Bottom Metadata Chips -->
     <g transform="translate(0, 545)">
-      <rect width="100" height="26" rx="6" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.12)"/>
-      <text x="50" y="17" font-family="ui-monospace, monospace" font-size="11.5" fill="#9ba1c7" text-anchor="middle">MIT License</text>
+      <rect width="90" height="26" rx="6" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.12)"/>
+      <text x="45" y="17" font-family="ui-monospace, monospace" font-size="10.5" fill="#9ba1c7" text-anchor="middle">MIT License</text>
 
-      <rect x="110" width="124" height="26" rx="6" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.12)"/>
-      <text x="172" y="17" font-family="ui-monospace, monospace" font-size="11.5" fill="#9ba1c7" text-anchor="middle">TypeScript Ready</text>
+      <rect x="98" width="122" height="26" rx="6" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.12)"/>
+      <text x="159" y="17" font-family="ui-monospace, monospace" font-size="10.5" fill="#9ba1c7" text-anchor="middle">TypeScript Ready</text>
 
-      <rect x="244" width="134" height="26" rx="6" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.12)"/>
-      <text x="311" y="17" font-family="ui-monospace, monospace" font-size="11.5" fill="#9ba1c7" text-anchor="middle">React Native &gt;= 0.60</text>
+      <rect x="228" width="146" height="26" rx="6" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.12)"/>
+      <text x="301" y="17" font-family="ui-monospace, monospace" font-size="10.5" fill="#9ba1c7" text-anchor="middle">React Native &gt;= 0.60</text>
 
-      <rect x="388" width="168" height="26" rx="6" fill="rgba(63, 208, 255, 0.1)" stroke="rgba(63, 208, 255, 0.3)"/>
-      <text x="472" y="17" font-family="ui-monospace, monospace" font-size="11.5" fill="#3fd0ff" text-anchor="middle">Android &amp; iOS Parity</text>
+      <rect x="382" width="146" height="26" rx="6" fill="rgba(63, 208, 255, 0.1)" stroke="rgba(63, 208, 255, 0.3)"/>
+      <text x="455" y="17" font-family="ui-monospace, monospace" font-size="10.5" fill="#3fd0ff" text-anchor="middle">Android &amp; iOS Parity</text>
     </g>
   </g>
 
@@ -306,70 +305,70 @@
     <!-- Screen Inner Area (Clipped) -->
     <g clip-path="url(#screen-clip)">
       <!-- App Screen Background -->
-      <rect x="752" y="66" width="346" height="508" fill="#090c1f"/>
+      <rect x="22" y="18" width="346" height="508" fill="#090c1f"/>
 
       <!-- Status Bar -->
       <g opacity="0.8">
-        <text x="780" y="94" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#e9ebfa">9:41</text>
-        <circle cx="1040" cy="90" r="2.5" fill="#e9ebfa"/>
-        <path d="M1050 86 a6 6 0 0 1 12 0" fill="none" stroke="#e9ebfa" stroke-width="1.8"/>
-        <rect x="1068" y="85" width="16" height="9" rx="2.5" fill="none" stroke="#e9ebfa" stroke-width="1.2"/>
-        <rect x="1070" y="87" width="10" height="5" rx="1.5" fill="#e9ebfa"/>
+        <text x="50" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#e9ebfa">9:41</text>
+        <circle cx="310" cy="42" r="2.5" fill="#e9ebfa"/>
+        <path d="M320 38 a6 6 0 0 1 12 0" fill="none" stroke="#e9ebfa" stroke-width="1.8"/>
+        <rect x="338" y="37" width="16" height="9" rx="2.5" fill="none" stroke="#e9ebfa" stroke-width="1.2"/>
+        <rect x="340" y="39" width="10" height="5" rx="1.5" fill="#e9ebfa"/>
       </g>
 
       <!-- App Header -->
-      <g transform="translate(774, 110)">
+      <g transform="translate(44, 62)">
         <rect width="302" height="34" rx="8" fill="rgba(139, 123, 255, 0.08)" stroke="rgba(139, 123, 255, 0.2)" stroke-width="1"/>
         <circle cx="16" cy="17" r="4.5" fill="#4ade80" class="anim-pulse-dot"/>
         <text x="28" y="21" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700" fill="#e9ebfa" letter-spacing="0.5">PROCESS LIFECYCLE MONITOR</text>
       </g>
 
       <!-- ================= LIFECYCLE STATE MACHINE GRAPH ================= -->
-      <g transform="translate(774, 160)">
+      <g transform="translate(44, 112)">
         <!-- State Machine Box -->
         <rect width="302" height="125" rx="14" fill="rgba(14, 17, 48, 0.75)" stroke="rgba(150, 160, 255, 0.15)" stroke-width="1"/>
 
         <!-- Connecting Flow Lines -->
         <g class="anim-flow">
           <!-- Active -> Inactive -->
-          <path d="M72 52 L112 52" fill="none" stroke="rgba(255, 255, 255, 0.35)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
-          <path d="M112 52 l-6 -4 v8 z" fill="rgba(255, 255, 255, 0.6)"/>
+          <path d="M80 52 L116 52" fill="none" stroke="rgba(255, 255, 255, 0.35)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+          <path d="M116 52 l-6 -4 v8 z" fill="rgba(255, 255, 255, 0.6)"/>
 
           <!-- Inactive -> Background -->
-          <path d="M187 52 L227 52" fill="none" stroke="rgba(255, 255, 255, 0.35)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
-          <path d="M227 52 l-6 -4 v8 z" fill="rgba(255, 255, 255, 0.6)"/>
+          <path d="M184 52 L220 52" fill="none" stroke="rgba(255, 255, 255, 0.35)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+          <path d="M220 52 l-6 -4 v8 z" fill="rgba(255, 255, 255, 0.6)"/>
 
           <!-- Background -> Active loop return -->
-          <path d="M250 78 C 250 112 50 112 50 78" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round"/>
-          <path d="M50 76 l-4 6 h8 z" fill="rgba(255, 255, 255, 0.5)"/>
+          <path d="M250 82 C 250 116 50 116 50 88" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round"/>
+          <path d="M50 82 l-4 6 h8 z" fill="rgba(255, 255, 255, 0.5)"/>
         </g>
 
         <!-- Node 1: Active -->
         <g transform="translate(50, 52)">
-          <circle cx="0" cy="0" r="28" fill="#4ade80" opacity="0.18" class="anim-glow-active" filter="url(#glow-green)"/>
-          <circle cx="0" cy="0" r="22" fill="#0e1130" stroke="#4ade80" stroke-width="2.5"/>
-          <text x="0" y="4" font-family="ui-monospace, monospace" font-size="9.5" font-weight="700" fill="#4ade80" text-anchor="middle">active</text>
+          <circle cx="0" cy="0" r="32" fill="#4ade80" opacity="0.18" class="anim-glow-active" filter="url(#glow-green)"/>
+          <circle cx="0" cy="0" r="26" fill="#0e1130" stroke="#4ade80" stroke-width="2.5"/>
+          <text x="0" y="3.5" font-family="ui-monospace, monospace" font-size="8.5" font-weight="700" fill="#4ade80" text-anchor="middle">active</text>
           <text x="0" y="-30" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#9ba1c7" text-anchor="middle">Foreground</text>
         </g>
 
         <!-- Node 2: Inactive -->
         <g transform="translate(150, 52)">
-          <circle cx="0" cy="0" r="28" fill="#fbbf24" opacity="0.18" class="anim-glow-inactive" filter="url(#glow-amber)"/>
-          <circle cx="0" cy="0" r="22" fill="#0e1130" stroke="#fbbf24" stroke-width="2.5"/>
-          <text x="0" y="4" font-family="ui-monospace, monospace" font-size="9" font-weight="700" fill="#fbbf24" text-anchor="middle">inactive</text>
+          <circle cx="0" cy="0" r="32" fill="#fbbf24" opacity="0.18" class="anim-glow-inactive" filter="url(#glow-amber)"/>
+          <circle cx="0" cy="0" r="26" fill="#0e1130" stroke="#fbbf24" stroke-width="2.5"/>
+          <text x="0" y="3.5" font-family="ui-monospace, monospace" font-size="8.5" font-weight="700" fill="#fbbf24" text-anchor="middle">inactive</text>
           <text x="0" y="-30" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#9ba1c7" text-anchor="middle">Transition</text>
         </g>
 
         <!-- Node 3: Background -->
         <g transform="translate(250, 52)">
-          <circle cx="0" cy="0" r="28" fill="#8b7bff" opacity="0.18" class="anim-glow-background" filter="url(#glow-violet)"/>
-          <circle cx="0" cy="0" r="22" fill="#0e1130" stroke="#8b7bff" stroke-width="2.5"/>
-          <text x="0" y="4" font-family="ui-monospace, monospace" font-size="8.5" font-weight="700" fill="#8b7bff" text-anchor="middle">backgnd</text>
+          <circle cx="0" cy="0" r="32" fill="#8b7bff" opacity="0.18" class="anim-glow-background" filter="url(#glow-violet)"/>
+          <circle cx="0" cy="0" r="26" fill="#0e1130" stroke="#8b7bff" stroke-width="2.5"/>
+          <text x="0" y="3.5" font-family="ui-monospace, monospace" font-size="8.5" font-weight="700" fill="#8b7bff" text-anchor="middle">backgnd</text>
           <text x="0" y="-30" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#9ba1c7" text-anchor="middle">All Hidden</text>
         </g>
 
         <!-- Animated Token -->
-        <g transform="translate(50, 22)">
+        <g transform="translate(50, 7)">
           <g class="anim-token">
             <circle cx="0" cy="0" r="6" fill="#ffffff" filter="url(#glow-cyan)"/>
             <circle cx="0" cy="0" r="3" fill="#3fd0ff"/>
@@ -378,7 +377,7 @@
       </g>
 
       <!-- ================= SCENARIO COMPARISON CARD ================= -->
-      <g transform="translate(774, 300)" class="anim-state-card">
+      <g transform="translate(44, 252)" class="anim-state-card">
         <rect width="302" height="135" rx="14" fill="url(#card-grad)" stroke="rgba(63, 208, 255, 0.22)" stroke-width="1.2"/>
 
         <!-- Header -->
@@ -391,8 +390,8 @@
         <g transform="translate(14, 48)">
           <rect width="274" height="30" rx="6" fill="rgba(244, 63, 94, 0.08)" stroke="rgba(244, 63, 94, 0.25)" stroke-width="1"/>
           <text x="10" y="19" font-family="ui-monospace, monospace" font-size="10.5" fill="#e9ebfa">Built-in AppState</text>
-          <rect x="180" y="5" width="84" height="20" rx="10" fill="url(#badge-warn-grad)"/>
-          <text x="222" y="19" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#f43f5e" text-anchor="middle">background ✗</text>
+          <rect x="168" y="5" width="96" height="20" rx="10" fill="url(#badge-warn-grad)"/>
+          <text x="216" y="19" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#f43f5e" text-anchor="middle">background ✗</text>
         </g>
 
         <!-- react-native-applifecycle row -->
@@ -405,7 +404,7 @@
       </g>
 
       <!-- ================= CODE & HOOK PREVIEW ================= -->
-      <g transform="translate(774, 450)">
+      <g transform="translate(44, 402)">
         <rect width="302" height="105" rx="14" fill="#0d0f27" stroke="rgba(150, 160, 255, 0.15)" stroke-width="1"/>
 
         <!-- Mini Code Editor Header -->
