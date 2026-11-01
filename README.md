@@ -308,7 +308,7 @@ jest.mock('react-native-applifecycle/dist/AppLifecycle', () =>
 
 <a id="limitations"></a>
 
-## ⚠ Limitations
+## ⚠️ Limitations
 
 > [!NOTE]
 > In development mode, some lifecycle events may not trigger as expected due to how React Native manages backgrounding and hot reloading during Metro development sessions.
