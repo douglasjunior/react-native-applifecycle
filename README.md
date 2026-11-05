@@ -69,6 +69,8 @@ export default function App() {
 
 ---
 
+Supports both React Native's New Architecture and the old architecture.
+
 ## 💡 Why React-Native App Lifecycle?
 
 - 🎯 **Eliminates False Background Events on Android.** Opening a camera preview, an image picker, Google Play billing, biometric prompt, or an OAuth Custom Tab halts the main React Native Activity, causing React Native's built-in `AppState` to prematurely dispatch `background`. This library keeps your app in `active` until the entire application process is obscured.

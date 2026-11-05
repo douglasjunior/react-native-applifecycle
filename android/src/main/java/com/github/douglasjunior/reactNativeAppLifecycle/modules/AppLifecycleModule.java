@@ -27,59 +27,48 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
-import com.facebook.react.bridge.BaseJavaModule;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecycleObserver {
-    private static final String MODULE_NAME = "ReactNativeAppLifecycle";
+@ReactModule(name = AppLifecycleModule.NAME)
+public class AppLifecycleModule extends NativeAppLifecycleSpec implements DefaultLifecycleObserver {
+    public static final String NAME = "ReactNativeAppLifecycle";
     private static final String ON_START_EVENT = "ON_START";
     private static final String ON_STOP_EVENT = "ON_STOP";
-    private final ReactApplicationContext reactApplicationContext;
+    private volatile boolean invalidated;
 
     public AppLifecycleModule(ReactApplicationContext reactApplicationContext) {
-        this.reactApplicationContext = reactApplicationContext;
+        super(reactApplicationContext);
     }
 
     @Override
     public void initialize() {
-        reactApplicationContext.runOnUiQueueThread(() -> ProcessLifecycleOwner
-                .get()
-                .getLifecycle()
-                .addObserver(AppLifecycleModule.this));
+        super.initialize();
+        getReactApplicationContext().runOnUiQueueThread(() -> {
+            if (!invalidated) {
+                ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleModule.this);
+            }
+        });
     }
 
     @Override
     public void invalidate() {
-        reactApplicationContext.runOnUiQueueThread(() -> ProcessLifecycleOwner
+        invalidated = true;
+        getReactApplicationContext().runOnUiQueueThread(() -> ProcessLifecycleOwner
                 .get()
                 .getLifecycle()
                 .removeObserver(AppLifecycleModule.this));
+        super.invalidate();
     }
 
     @NonNull
     @Override
     public String getName() {
-        return MODULE_NAME;
-    }
-
-    @Override
-    public void onCreate(@NonNull LifecycleOwner owner) {
-    }
-
-    @Override
-    public void onDestroy(@NonNull LifecycleOwner owner) {
-    }
-
-    @Override
-    public void onPause(@NonNull LifecycleOwner owner) {
-    }
-
-    @Override
-    public void onResume(@NonNull LifecycleOwner owner) {
+        return NAME;
     }
 
     @Override
@@ -93,20 +82,25 @@ public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecyc
     }
 
     private void sendEvent(String type) {
-        WritableMap params = new WritableNativeMap();
+        if (invalidated) {
+            return;
+        }
+        WritableMap params = Arguments.createMap();
         params.putString("type", type);
-        reactApplicationContext
+        getReactApplicationContext()
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(MODULE_NAME, params);
+                .emit(NAME, params);
     }
 
     @ReactMethod
+    @Override
     public void addListener(String eventName) {
         /* Required for RN built-in Event Emitter Calls. */
     }
 
     @ReactMethod
-    public void removeListeners(Integer count) {
+    @Override
+    public void removeListeners(double count) {
         /* Required for RN built-in Event Emitter Calls. */
     }
 }
