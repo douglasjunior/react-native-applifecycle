@@ -315,6 +315,8 @@ jest.mock('react-native-applifecycle/dist/AppLifecycle', () =>
 >
 > For further details and discussion, see [Issue #13 (comment)](https://github.com/douglasjunior/react-native-applifecycle/issues/13#issuecomment-3065908934).
 
+- **Android `blur` / `focus` events with native Dialogs & Bottom Sheets:** `AppLifecycle` uses `ProcessLifecycleOwner` only for `'change'` (`active` / `background`). The `'blur'` and `'focus'` events are delegated directly to React Native's `AppState` (which tracks window focus on `ReactActivity`). As a result, opening any native `Dialog`, `Modal`, or `BottomSheetDialog` (such as `react-native-true-sheet`) creates a separate Android `Window` and triggers `'blur'` while `AppLifecycle.currentState` remains `'active'`. If you rely on `'blur'`/`'focus'` to detect inactivity (e.g., for an app lock screen), track in-app modal/sheet visibility in your app state to ignore expected `'blur'` events (see [Issue #12](https://github.com/douglasjunior/react-native-applifecycle/issues/12)).
+
 ---
 
 ## 🤝 Contributing
