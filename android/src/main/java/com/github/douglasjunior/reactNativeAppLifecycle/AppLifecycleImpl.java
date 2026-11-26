@@ -20,50 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-package com.github.douglasjunior.reactNativeAppLifecycle.modules;
+package com.github.douglasjunior.reactNativeAppLifecycle;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
-import com.facebook.react.bridge.BaseJavaModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecycleObserver {
-    private static final String MODULE_NAME = "ReactNativeAppLifecycle";
+public class AppLifecycleImpl implements DefaultLifecycleObserver {
+    public static final String MODULE_NAME = "ReactNativeAppLifecycle";
     private static final String ON_START_EVENT = "ON_START";
     private static final String ON_STOP_EVENT = "ON_STOP";
     private final ReactApplicationContext reactApplicationContext;
 
-    public AppLifecycleModule(ReactApplicationContext reactApplicationContext) {
+    public AppLifecycleImpl(ReactApplicationContext reactApplicationContext) {
         this.reactApplicationContext = reactApplicationContext;
     }
 
-    @Override
     public void initialize() {
         reactApplicationContext.runOnUiQueueThread(() -> ProcessLifecycleOwner
                 .get()
                 .getLifecycle()
-                .addObserver(AppLifecycleModule.this));
+                .addObserver(AppLifecycleImpl.this));
     }
 
-    @Override
     public void invalidate() {
         reactApplicationContext.runOnUiQueueThread(() -> ProcessLifecycleOwner
                 .get()
                 .getLifecycle()
-                .removeObserver(AppLifecycleModule.this));
-    }
-
-    @NonNull
-    @Override
-    public String getName() {
-        return MODULE_NAME;
+                .removeObserver(AppLifecycleImpl.this));
     }
 
     @Override
@@ -100,13 +90,11 @@ public class AppLifecycleModule extends BaseJavaModule implements DefaultLifecyc
                 .emit(MODULE_NAME, params);
     }
 
-    @ReactMethod
     public void addListener(String eventName) {
         /* Required for RN built-in Event Emitter Calls. */
     }
 
-    @ReactMethod
-    public void removeListeners(Integer count) {
+    public void removeListeners(double count) {
         /* Required for RN built-in Event Emitter Calls. */
     }
 }

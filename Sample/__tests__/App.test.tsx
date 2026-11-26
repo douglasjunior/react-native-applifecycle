@@ -2,16 +2,25 @@
  * @format
  */
 
-import 'react-native';
-import React from 'react';
+import ReactTestRenderer from 'react-test-renderer';
 import App from '../App';
 
-// Note: import explicitly to use the types shipped with jest.
-import {it} from '@jest/globals';
+jest.mock('react-native-applifecycle', () => {
+  const AppLifecycle =
+    require('react-native-applifecycle/jest/AppLifecycleMock').default;
+  return {
+    AppLifecycle,
+    useAppLifecycle: () => AppLifecycle.currentState,
+  };
+});
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+jest.mock(
+  'react-native-safe-area-context',
+  () => require('react-native-safe-area-context/jest/mock').default,
+);
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+test('renders correctly', async () => {
+  await ReactTestRenderer.act(() => {
+    ReactTestRenderer.create(<App />);
+  });
 });

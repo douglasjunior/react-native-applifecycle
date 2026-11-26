@@ -3,11 +3,12 @@ import {
   AppState,
   Button,
   Linking,
-  SafeAreaView,
   ScrollView,
   StatusBar,
+  StyleSheet,
   Text,
 } from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import {AppLifecycle, useAppLifecycle} from 'react-native-applifecycle';
 
@@ -18,7 +19,7 @@ function App(): React.JSX.Element {
     currentLifecycle,
   ]);
   const [appStateHistory, setAppStateHistory] = useState<string[]>([
-    AppState.currentState,
+    AppState.currentState ?? 'unknown',
   ]);
 
   useEffect(() => {
@@ -55,31 +56,42 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView style={{padding: 24}}>
-      <StatusBar translucent={false} />
-      <ScrollView>
-        <Button
-          title="Open second activity"
-          onPress={handleOpenSecondActivity}
-        />
-        <Text>Current Lifecycle: {currentLifecycle}</Text>
-        <Text style={{marginBottom: 12, marginTop: 24}}>
-          Lifecycle History:
-        </Text>
-        {lifecycleHistory.map((state, index) => (
-          <Text key={index}>
-            {index} {'->'} {state}
-          </Text>
-        ))}
-        <Text style={{marginBottom: 12, marginTop: 24}}>AppState History:</Text>
-        {appStateHistory.map((state, index) => (
-          <Text key={index}>
-            {index} {'->'} {state}
-          </Text>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <StatusBar />
+        <ScrollView>
+          <Button
+            title="Open second activity"
+            onPress={handleOpenSecondActivity}
+          />
+          <Text>Current Lifecycle: {currentLifecycle}</Text>
+          <Text style={styles.sectionTitle}>Lifecycle History:</Text>
+          {lifecycleHistory.map((state, index) => (
+            <Text key={index}>
+              {index} {'->'} {state}
+            </Text>
+          ))}
+          <Text style={styles.sectionTitle}>AppState History:</Text>
+          {appStateHistory.map((state, index) => (
+            <Text key={index}>
+              {index} {'->'} {state}
+            </Text>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+  },
+  sectionTitle: {
+    marginBottom: 12,
+    marginTop: 24,
+  },
+});
 
 export default App;

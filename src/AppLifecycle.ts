@@ -20,38 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import {
-  AppState,
-  AppStateStatus,
-  Platform,
-  AppStateEvent,
-  NativeEventSubscription,
-} from 'react-native';
+import {AppState, AppStateStatus, Platform} from 'react-native';
 
-import type {EventHandlerType} from './AndroidLifecycleModule';
+import {parseAppStateStatus} from './utils';
 
 const AppLifecycle = {
   /**
    * Adds an event listener to the app lifecycle events.
    */
-  addEventListener(
-    event: AppStateEvent,
-    handler: EventHandlerType,
-  ): NativeEventSubscription {
+  addEventListener: ((event, handler) => {
     return Platform.OS === 'android'
       ? require('./AndroidLifecycleModule').default.addEventListener(
           event,
           handler,
         )
       : AppState.addEventListener(event, handler);
-  },
+  }) as typeof AppState.addEventListener,
   /**
    * Returns the current app state.
    */
   get currentState(): AppStateStatus {
     return Platform.OS === 'android'
       ? require('./AndroidLifecycleModule').default.currentState
-      : AppState.currentState;
+      : parseAppStateStatus(AppState.currentState);
   },
   /**
    * Returns whether the app lifecycle module is available on the current platform.

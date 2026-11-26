@@ -22,29 +22,46 @@
 
 package com.github.douglasjunior.reactNativeAppLifecycle;
 
-import androidx.annotation.NonNull;
+import static com.github.douglasjunior.reactNativeAppLifecycle.AppLifecycleImpl.MODULE_NAME;
 
-import com.facebook.react.ReactPackage;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.facebook.react.BaseReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.ViewManager;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.github.douglasjunior.reactNativeAppLifecycle.modules.AppLifecycleModule;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 
-public class AppLifecyclePackage implements ReactPackage {
-    @NonNull
+public class AppLifecyclePackage extends BaseReactPackage {
+
+    @Nullable
     @Override
-    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactApplicationContext) {
-        return Collections.singletonList(
-                new AppLifecycleModule(reactApplicationContext)
-        );
+    public NativeModule getModule(@NonNull String name, @NonNull ReactApplicationContext reactContext) {
+        if (name.equals(MODULE_NAME)) {
+            return new AppLifecycleModule(reactContext);
+        } else {
+            return null;
+        }
     }
 
     @NonNull
     @Override
-    public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactApplicationContext) {
-        return Collections.emptyList();
+    public ReactModuleInfoProvider getReactModuleInfoProvider() {
+        return () -> {
+            var map = new HashMap<String, ReactModuleInfo>();
+            map.put(MODULE_NAME, new ReactModuleInfo(
+                    MODULE_NAME,                            // name
+                    AppLifecycleModule.class.getName(),     // className
+                    false,                                  // canOverrideExistingModule
+                    false,                                  // needsEagerInit
+                    false,                                  // isCxxModule
+                    BuildConfig.IS_NEW_ARCHITECTURE_ENABLED // isTurboModule
+            ));
+            return map;
+        };
     }
 }

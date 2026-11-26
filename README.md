@@ -13,7 +13,7 @@
   <a href="https://www.npmjs.com/package/react-native-applifecycle"><img src="https://img.shields.io/npm/v/react-native-applifecycle?style=flat-square&color=3FD0FF" alt="npm version"></a>
   <a href="https://www.npmjs.com/package/react-native-applifecycle"><img src="https://img.shields.io/npm/dt/react-native-applifecycle?style=flat-square&color=FF6A8E" alt="npm downloads"></a>
   <img src="https://img.shields.io/badge/platform-Android_%7C_iOS-lightgrey?style=flat-square" alt="Platform Android and iOS">
-  <img src="https://img.shields.io/badge/React_Native-%3E%3D0.60-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native >= 0.60">
+  <img src="https://img.shields.io/badge/React_Native-%3E%3D0.80-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native >= 0.80">
   <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript strict">
   <a href="https://github.com/douglasjunior/react-native-applifecycle/pulls"><img src="https://img.shields.io/badge/PRs-welcome-22C55E?style=flat-square" alt="PRs welcome"></a>
 </p>
@@ -117,8 +117,8 @@ By using `react-native-applifecycle`, your background sync routines, timeout loc
 
 | Platform / Tool | Supported Version |
 |---|---|
-| **React Native** | `>= 0.60.0` |
-| **Android** | `minSdkVersion >= 21` (AndroidX Lifecycle supported) |
+| **React Native** | `>= 0.80.0` (New Architecture & Old Architecture supported) |
+| **Android** | `minSdkVersion >= 24` (AndroidX Lifecycle supported) |
 
 ---
 
@@ -266,10 +266,10 @@ For additional background on iOS states, refer to the [React Native AppState doc
 static addEventListener(
   type: AppStateEvent,
   listener: (state: AppStateStatus) => void,
-): NativeEventSubscription;
+): EventSubscription;
 ```
 
-Sets up an event listener that is invoked whenever the specified lifecycle event occurs. Returns a `NativeEventSubscription` object containing a `.remove()` method to cleanly unsubscribe.
+Sets up an event listener that is invoked whenever the specified lifecycle event occurs. Returns an `EventSubscription` object containing a `.remove()` method to cleanly unsubscribe.
 
 ---
 

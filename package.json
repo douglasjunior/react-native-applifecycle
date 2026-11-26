@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "⚛ Enhances the reliability of managing app lifecycles across iOS and Android platforms, ensuring consistent behavior regarding foreground and background states.",
   "main": "src",
+  "react-native": "src",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -26,30 +27,37 @@
     "url": "https://github.com/douglasjunior/react-native-applifecycle/issues"
   },
   "homepage": "https://github.com/douglasjunior/react-native-applifecycle",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "codegenConfig": {
+    "name": "rnapplifecycle_codegen",
+    "type": "modules",
+    "jsSrcsDir": "./src/specs",
+    "android": {
+      "javaPackageName": "com.github.douglasjunior.reactNativeAppLifecycle"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "publish-script": "node scripts/publish.js"
+    "build": "tsc"
   },
   "peerDependencies": {
-    "react-native": ">=0.60"
+    "react-native": ">=0.80"
   },
   "devDependencies": {
-    "react": "18.2.0",
-    "react-native": "0.73.7",
-    "@babel/core": "^7.20.0",
-    "@babel/preset-env": "^7.20.0",
-    "@babel/runtime": "^7.20.0",
-    "@react-native/babel-preset": "0.73.21",
-    "@react-native/eslint-config": "0.73.2",
-    "@react-native/metro-config": "0.73.5",
-    "@react-native/typescript-config": "0.73.1",
-    "@types/react": "^18.2.6",
-    "@types/react-test-renderer": "^18.0.0",
-    "babel-jest": "^29.6.3",
+    "@babel/core": "^7.25.2",
+    "@react-native/babel-preset": "0.88.1",
+    "@react-native/eslint-config": "0.88.1",
+    "@react-native/typescript-config": "0.88.1",
+    "@types/react": "^19.2.0",
     "eslint": "^8.19.0",
-    "jest": "^29.6.3",
     "prettier": "2.8.8",
-    "react-test-renderer": "18.2.0",
-    "typescript": "5.0.4"
-  }
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">= 22.11.0"
+  },
+  "packageManager": "yarn@1.22.22"
 }

@@ -22,12 +22,13 @@
 
 import {
   AppStateStatus,
-  NativeEventSubscription,
-  NativeModules,
+  EventSubscription,
   NativeEventEmitter,
   AppState,
-  AppStateEvent,
 } from 'react-native';
+
+import NativeReactNativeAppLifecycle from './specs/NativeReactNativeAppLifecycle';
+import {parseAppStateStatus} from './utils';
 
 const NATIVE_MODULE_NAME = 'ReactNativeAppLifecycle';
 const ON_START_EVENT = 'ON_START';
@@ -40,12 +41,12 @@ type LifecycleEventType = {
   type: typeof ON_START_EVENT | typeof ON_STOP_EVENT;
 };
 
-let currentState: AppStateStatus = AppState.currentState;
+let currentState: AppStateStatus = parseAppStateStatus(AppState.currentState);
 
 const subscribeToEvent = (
   handler: EventHandlerType,
   handlers: EventHandlerType[],
-): NativeEventSubscription => {
+): EventSubscription => {
   handlers.push(handler);
 
   return {
@@ -58,12 +59,12 @@ const subscribeToEvent = (
   };
 };
 
-const addEventListener = (
-  event: AppStateEvent,
-  handler: EventHandlerType,
-): NativeEventSubscription => {
+const addEventListener: typeof AppState.addEventListener = (event, handler) => {
   if (event === 'change') {
-    return subscribeToEvent(handler, CHANGE_EVENT_HANDLERS);
+    return subscribeToEvent(
+      handler as EventHandlerType,
+      CHANGE_EVENT_HANDLERS,
+    );
   }
   return AppState.addEventListener(event, handler);
 };
@@ -75,7 +76,9 @@ const dispatchEvent = (oldState: AppStateStatus, newState: AppStateStatus) => {
   CHANGE_EVENT_HANDLERS.forEach(handler => handler(newState));
 };
 
-const eventEmitter = new NativeEventEmitter(NativeModules[NATIVE_MODULE_NAME]);
+const eventEmitter = new NativeEventEmitter<{
+  [NATIVE_MODULE_NAME]: [LifecycleEventType];
+}>(NativeReactNativeAppLifecycle ?? undefined);
 
 eventEmitter.addListener(NATIVE_MODULE_NAME, (event: LifecycleEventType) => {
   const oldState = currentState;

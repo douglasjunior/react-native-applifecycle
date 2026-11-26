@@ -1,3 +1,5 @@
-module.exports = async taskData => {
+const networkService = async (taskData: unknown) => {
   console.log(taskData);
 };
+
+export default networkService;
