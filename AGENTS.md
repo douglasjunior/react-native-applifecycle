@@ -31,7 +31,7 @@ bundle install && cd ios && bundle exec pod install && cd ..   # iOS pods
 yarn ios
 ```
 
-There are no unit tests for the library or the native code; native behavior is verified by running the Sample on a device/simulator (including opening `SecondActivity` via `sampleapp://second` to verify `AppLifecycle` stays `active` while `AppState` fires `background`). The Sample has New Architecture on (`newArchEnabled=true` in `Sample/android/gradle.properties`, `ENV['RCT_NEW_ARCH_ENABLED'] = '1'` in `Sample/ios/Podfile`).
+There are no unit tests for the library or the native code; native behavior is verified by running the Sample on a device/simulator following the checklist in `Sample/README.md` (foreground launch, `SecondActivity` via `sampleapp://second`, Home/resume, and Headless JS `BackgroundServiceExample` from killed state / Issue #1). The Sample has New Architecture on (`newArchEnabled=true` in `Sample/android/gradle.properties`, `ENV['RCT_NEW_ARCH_ENABLED'] = '1'` in `Sample/ios/Podfile`; note that RN 0.82+ forces `newArchEnabled=true` in Gradle).
 
 ## Repository map
 

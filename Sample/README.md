@@ -64,6 +64,45 @@ You've successfully run and modified your React Native App. :partying_face:
 - If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
 - If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
 
+# Android Test Checklist
+
+Ensure Metro is running (`yarn start`), `adb reverse tcp:8081 tcp:8081` is active, and the Sample app is installed on an Android device/emulator. Inspect logs with:
+
+```bash
+adb logcat -d -s ReactNativeJS:V AndroidRuntime:E
+```
+
+1. **Foreground launch:**
+   ```bash
+   adb shell am start -n com.sample/.MainActivity
+   ```
+   - Expected: `useAppLifecycle:active`, no crashes.
+
+2. **Secondary Activity (`SecondActivity`):**
+   ```bash
+   adb shell am start -a android.intent.action.VIEW -d sampleapp://second
+   # then press Back:
+   adb shell input keyevent KEYCODE_BACK
+   ```
+   - Expected: `AppState:change:background` fires when `SecondActivity` opens and `AppState:change:active` on Back, while `AppLifecycle` emits **nothing** (stays `active`).
+
+3. **Home / background & resume:**
+   ```bash
+   adb shell input keyevent KEYCODE_HOME
+   adb shell am start -n com.sample/.MainActivity
+   ```
+   - Expected: both `AppState` and `AppLifecycle` emit `background` on Home and `active` on resume.
+
+4. **Headless JS Service from killed state ([Issue #1](https://github.com/douglasjunior/react-native-applifecycle/issues/1)):**
+   ```bash
+   adb shell am force-stop com.sample
+   adb shell cmd deviceidle whitelist +com.sample
+   adb shell am startservice -n com.sample/.BackgroundServiceExample --el time 12345
+   ```
+   - Expected: no `NullPointerException` (no `Activity` exists yet), `NetworkService:start` logs with `appLifecycle: "background"` (must **not** transition to `"active"`).
+
+> **Note on Old Architecture:** Since React Native 0.82+, `ReactRootProjectPlugin` forces `newArchEnabled=true` in the Sample app. To verify the `src/oldarch` module at runtime, test against a React Native 0.80–0.81 consumer with `newArchEnabled=false`.
+
 # Troubleshooting
 
 If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
